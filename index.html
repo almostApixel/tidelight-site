@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tidelight · a cozy diving game</title>
+<meta name="description" content="Pilot a little sub down a new reef every dive, net fish, fill a walk-in aquarium and rebuild a storm-wrecked harbour until the lighthouse shines again. Wishlist Tidelight on Steam.">
+<meta property="og:title" content="Tidelight · a cozy diving game">
+<meta property="og:description" content="Dive a new reef every trip, fill a walk-in aquarium and rebuild a storm-wrecked harbour.">
+<meta property="og:image" content="https://tidelight.mossglowgames.com/img/share.png">
+<meta property="og:url" content="https://tidelight.mossglowgames.com/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fff9ec;
+    --cream-2: #f4f0dc;
+    --moss: #6bab5a;
+    --moss-dark: #3f7a3a;
+    --moss-deep: #24452a;
+    --glow: #ffe27a;
+    --pink: #ff9fb5;
+    --sea: #5cc6d0;
+    --sea-light: #e6f8f7;
+    --sea-deep: #2b6f91;
+    --night: #1d3557;
+    --ink: #2f3b2c;
+    --ink-soft: #5b6a55;
+    --card: #ffffff;
+    --shadow: 0 10px 30px rgba(43, 111, 145, 0.16);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--cream); color: var(--ink);
+    font-family: "Nunito", system-ui, sans-serif; font-size: 18px; line-height: 1.6; overflow-x: hidden;
+  }
+  h1, h2, h3, .brand { font-family: "Fredoka", "Nunito", sans-serif; line-height: 1.15; }
+  a { color: inherit; }
+  img, video { max-width: 100%; display: block; }
+  .pixel { image-rendering: pixelated; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+  /* ---------- Nav ---------- */
+  .topbar { position: absolute; top: 0; left: 0; right: 0; z-index: 5; }
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; gap: 12px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 10px; font-size: 1.15rem; font-weight: 700; color: #fff; text-decoration: none; text-shadow: 0 2px 0 rgba(0,0,0,.35); }
+  .brand img { width: 28px; height: 30px; image-rendering: pixelated; filter: drop-shadow(0 2px 0 rgba(0,0,0,.35)); }
+  nav ul { list-style: none; display: flex; gap: 4px; margin: 0; padding: 0; flex-wrap: wrap; }
+  nav ul a {
+    text-decoration: none; font-weight: 700; color: #fff; padding: 7px 13px; border-radius: 999px;
+    background: rgba(13, 30, 56, .35); transition: background .2s;
+  }
+  nav ul a:hover { background: rgba(13, 30, 56, .6); }
+
+  /* ---------- Hero ---------- */
+  .hero { position: relative; background: #0f2a4a; color: #fff; overflow: hidden; }
+  .hero-art {
+    width: 100%; aspect-ratio: 1920 / 620; min-height: 420px; object-fit: cover; object-position: center top;
+    image-rendering: pixelated;
+  }
+  .hero-copy {
+    position: relative; text-align: center; padding: 0 0 70px; margin-top: -130px;
+    background: linear-gradient(180deg, rgba(15,42,74,0) 0%, #0f2a4a 130px);
+  }
+  .hero-copy .inner { padding-top: 90px; }
+  .tagline { font-family: "Fredoka", sans-serif; font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 600; margin: 0 0 10px; color: var(--glow); }
+  .lead { font-size: 1.15rem; max-width: 640px; margin: 0 auto 26px; color: #d6ecf5; }
+  .pills { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 30px; }
+  .pill { background: rgba(255,255,255,.1); border: 2px solid rgba(255,255,255,.25); padding: 4px 14px; border-radius: 999px; font-weight: 700; font-size: .95rem; }
+  .ctas { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-family: "Fredoka", sans-serif; font-weight: 600;
+    font-size: 1.15rem; padding: 14px 30px; border-radius: 999px; transition: transform .15s, box-shadow .15s;
+  }
+  .btn:hover { transform: translateY(-3px); }
+  .btn-glow { background: var(--glow); color: var(--night); box-shadow: 0 6px 0 #d9a93a; }
+  .btn-glow:hover { box-shadow: 0 9px 0 #d9a93a; }
+  .btn-ghost { color: #fff; border: 2px solid rgba(255,255,255,.5); }
+  .btn-ghost:hover { background: rgba(255,255,255,.1); }
+  .btn-moss { background: var(--moss); color: #fff; box-shadow: 0 6px 0 var(--moss-dark); }
+  .btn-moss:hover { box-shadow: 0 9px 0 var(--moss-dark); }
+  .btn svg { width: 22px; height: 22px; }
+
+  .wave { display: block; width: 100%; height: 60px; margin-top: -1px; }
+
+  /* ---------- Sections ---------- */
+  section { padding: 76px 0; }
+  .section-title { text-align: center; margin-bottom: 44px; }
+  .section-title h2 { font-size: clamp(2rem, 5vw, 2.7rem); margin: 0 0 8px; color: var(--sea-deep); }
+  .section-title p { margin: 0 auto; color: var(--ink-soft); max-width: 640px; }
+  .tag {
+    display: inline-block; font-family: "Fredoka", sans-serif; font-weight: 600; font-size: .9rem;
+    padding: 4px 14px; border-radius: 999px; background: var(--glow); color: var(--sea-deep); margin-bottom: 10px;
+  }
+  .frame { border-radius: 18px; overflow: hidden; box-shadow: var(--shadow); border: 5px solid #fff; background: #0f2a4a; }
+  .frame video, .frame img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; image-rendering: pixelated; }
+
+  /* ---------- Story ---------- */
+  .story { background: var(--sea-light); }
+  .story .wrap { max-width: 760px; text-align: center; }
+  .story h2 { font-size: clamp(1.9rem, 4.5vw, 2.5rem); color: var(--sea-deep); margin: 0 0 14px; }
+  .story p { color: var(--ink-soft); font-size: 1.15rem; margin: 0 0 14px; }
+
+  /* ---------- Rows: clip + text ---------- */
+  .row { display: grid; grid-template-columns: 1.25fr 1fr; gap: 48px; align-items: center; margin-bottom: 70px; }
+  .row:last-child { margin-bottom: 0; }
+  .row.flip > :first-child { order: 2; }
+  .row h3 { font-size: clamp(1.7rem, 4vw, 2.1rem); color: var(--sea-deep); margin: 0 0 12px; display: flex; align-items: center; gap: 12px; }
+  .row h3 .num {
+    width: 40px; height: 40px; flex: none; border-radius: 50%; background: var(--sea); color: #fff;
+    display: grid; place-items: center; font-size: 1.2rem;
+  }
+  .row ul { margin: 0; padding: 0; list-style: none; }
+  .row li { position: relative; padding-left: 28px; margin-bottom: 10px; color: var(--ink-soft); }
+  .row li::before { content: "✦"; position: absolute; left: 2px; color: #f0b73c; }
+
+  /* ---------- Aquarium band ---------- */
+  .aquarium { background: linear-gradient(180deg, #1b4a6b 0%, #133554 100%); color: #fff; }
+  .aquarium .section-title h2 { color: #fff; }
+  .aquarium .section-title p { color: #cfe6f2; }
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+  .duo figure { margin: 0; }
+  .duo .frame { border-color: #2f6688; }
+  .duo figcaption { text-align: center; margin-top: 12px; color: #cfe6f2; }
+  .duo figcaption b { color: var(--glow); font-family: "Fredoka", sans-serif; font-weight: 600; display: block; font-size: 1.15rem; }
+
+  /* ---------- Gallery ---------- */
+  .gallery-sec { background: linear-gradient(180deg, var(--cream) 0%, var(--sea-light) 100%); }
+  .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .gallery button { all: unset; cursor: zoom-in; display: block; border-radius: 14px; overflow: hidden; border: 4px solid #fff; box-shadow: var(--shadow); transition: transform .2s; }
+  .gallery button:hover { transform: scale(1.03) rotate(-.6deg); }
+  .gallery button:focus-visible { outline: 4px solid var(--glow); }
+  .gallery img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+
+  dialog { border: none; padding: 0; background: transparent; max-width: min(1600px, 96vw); width: 100%; }
+  dialog::backdrop { background: rgba(13, 30, 56, .9); }
+  dialog img { width: 100%; border-radius: 14px; border: 4px solid #fff; cursor: zoom-out; }
+  dialog p { color: #fff; text-align: center; font-family: "Fredoka", sans-serif; font-size: 1.2rem; margin: 10px 0 0; }
+
+  /* ---------- Zones ---------- */
+  .zones-sec { background: linear-gradient(180deg, #7fc8e0 0%, #2f6a97 22%, #1d3557 60%, #070b16 100%); color: #fff; }
+  .zones-sec .section-title h2 { color: #fff; }
+  .zones-sec .section-title p { color: #d6ecf5; }
+  .zones { list-style: none; margin: 0 auto; padding: 0; max-width: 860px; display: grid; gap: 14px; }
+  .zones li {
+    position: relative; border-radius: 18px; overflow: hidden; min-height: 116px;
+    display: flex; align-items: flex-end; padding: 16px 22px; border: 2px solid rgba(255,255,255,.18);
+    background-size: cover; background-position: center bottom; image-rendering: pixelated;
+  }
+  .zones li::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(7,11,22,.75) 0%, rgba(7,11,22,.15) 70%); }
+  .zones li > * { position: relative; }
+  .zones .depth { font-family: "Fredoka", sans-serif; font-weight: 600; color: var(--glow); font-size: .95rem; display: block; }
+  .zones h3 { margin: 0; font-size: 1.35rem; }
+  .zones p { margin: 2px 0 0; font-size: .98rem; color: #d6ecf5; }
+  .zones li.mystery { border-style: dashed; background: #05070f; min-height: 96px; justify-content: center; text-align: center; align-items: center; }
+  .zones li.mystery::before { background: radial-gradient(circle at 50% 60%, rgba(255,226,122,.12), transparent 60%); }
+  .zones li.mystery h3 { color: #8a9bb8; letter-spacing: .1em; }
+
+  /* ---------- Features ---------- */
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .feature { background: var(--card); border-radius: 22px; padding: 24px; box-shadow: var(--shadow); }
+  .feature .icon { font-size: 2rem; }
+  .feature h3 { margin: 6px 0 6px; color: var(--sea-deep); font-size: 1.2rem; }
+  .feature p { margin: 0; color: var(--ink-soft); font-size: 1rem; }
+
+  /* ---------- CTA ---------- */
+  .cta { text-align: center; background: var(--cream-2); }
+  .cta-box { background: #18709e; color: #fff; max-width: 760px; margin: 0 auto; padding: 0 0 44px; border-radius: 28px; overflow: hidden; box-shadow: var(--shadow); }
+  .cta-box .logo { width: 100%; image-rendering: pixelated; }
+  .cta-box h2 { margin: 18px 20px 10px; font-size: 2rem; }
+  .cta-box p { color: #cfe6f2; margin: 0 24px 26px; }
+  .cta-links { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; padding: 0 20px; }
+
+  footer { background: var(--moss-deep); color: #d9efc6; text-align: center; padding: 28px 20px; font-size: .95rem; }
+  footer a { color: #fff; }
+  footer .heart { color: var(--pink); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+  @media (max-width: 860px) {
+    .row, .row.flip { grid-template-columns: 1fr; gap: 22px; }
+    .row.flip > :first-child { order: 0; }
+    .features, .duo { grid-template-columns: 1fr; }
+    .gallery { grid-template-columns: 1fr 1fr; }
+    .hero-art { min-height: 300px; }
+  }
+  @media (max-width: 520px) {
+    body { font-size: 17px; }
+    nav { justify-content: center; }
+    nav ul { justify-content: center; }
+    .gallery { grid-template-columns: 1fr; }
+    .hero-copy { margin-top: -80px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="topbar">
+    <div class="wrap">
+      <nav>
+        <a class="brand" href="https://mossglowgames.com/"><img src="img/icon.png" width="28" height="30" alt="">Mossglow Games</a>
+        <ul>
+          <li><a href="#play">How it plays</a></li>
+          <li><a href="#aquarium">Aquarium</a></li>
+          <li><a href="#screens">Screenshots</a></li>
+          <li><a href="#zones">The reef</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <h1 style="margin:0">
+    <img class="hero-art" src="img/tidelight_header.gif" width="1920" height="620" alt="Tidelight: the lighthouse logo glowing over a pixel-art reef">
+  </h1>
+
+  <div class="hero-copy">
+    <div class="wrap inner">
+      <p class="tagline">Dive deep. Haul it home. Rebuild the harbour.</p>
+      <p class="lead">Pilot a little sub down a new reef every dive, swim out to net fish and gather what grows on the rock, then bring it all home. Fill a walk-in aquarium, rebuild a storm-wrecked harbour one building at a time, and go a little deeper until the lighthouse shines again.</p>
+      <div class="pills">
+        <span class="pill">🐠 91 species</span>
+        <span class="pill">🌊 Seven zones</span>
+        <span class="pill">🎮 Controller &amp; Steam Deck</span>
+        <span class="pill">🌍 31 languages</span>
+      </div>
+      <div class="ctas">
+        <a class="btn btn-glow" href="https://store.steampowered.com/app/5550230/Tidelight/">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          Wishlist on Steam
+        </a>
+        <a class="btn btn-ghost" href="#play">See it move</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= STORY ================= -->
+<section class="story" id="story">
+  <div class="wrap">
+    <span class="tag">The story</span>
+    <h2>A storm took the harbour.</h2>
+    <p>The pier still stands, and so does the little yellow sub.</p>
+    <p>Dive the reef below, bring home what you find, and raise the harbour again one building at a time. Somewhere in the keeper's lost logbook is what really happened the night of the storm. 💛</p>
+  </div>
+</section>
+
+<!-- ================= HOW IT PLAYS ================= -->
+<section id="play">
+  <div class="wrap">
+    <div class="section-title">
+      <span class="tag">How it plays</span>
+      <h2>Dive, haul, rebuild, repeat</h2>
+      <p>Every dive is a little adventure, and every trip home makes the harbour a bit cozier.</p>
+    </div>
+
+    <div class="row">
+      <div class="frame"><video src="img/clips/swim_shallows.mp4" poster="img/clips/swim_shallows.webp" autoplay muted loop playsinline preload="metadata" aria-label="The yellow sub gliding through the Sunlit Shallows"></video></div>
+      <div>
+        <h3><span class="num">1</span>Dive</h3>
+        <ul>
+          <li>The crane lowers your sub into a reef that's new every dive.</li>
+          <li>Seven zones down past 900 m, each with a rule of its own: kelp currents, stinging fire coral, caves where your lamps reach less far, vents that blast hot water.</li>
+          <li>Watch your battery and your air. Push too far and you're towed home, losing part of the haul, never your progress.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row flip">
+      <div class="frame"><video src="img/clips/net.mp4" poster="img/clips/net.webp" autoplay muted loop playsinline preload="metadata" aria-label="The diver swinging a net at a passing fish"></video></div>
+      <div>
+        <h3><span class="num">2</span>Haul</h3>
+        <ul>
+          <li>Swim out as the diver to net the fish you meet, from clownfish to coelacanths, and the odd golden one.</li>
+          <li>Gather shells, kelp, coral and crystals from the rock, and open the chests tucked away in the reef.</li>
+          <li>Sharks are an obstacle, not a killer: a bite costs air or a dent in the hull.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="frame"><video src="img/clips/caves.mp4" poster="img/clips/caves.webp" autoplay muted loop playsinline preload="metadata" aria-label="The diver washing rubble away with a water jet in a cave"></video></div>
+      <div>
+        <h3><span class="num">3</span>Explore</h3>
+        <ul>
+          <li>Squeeze the diver through crawls no sub fits.</li>
+          <li>Wash rubble away with a water jet and find the hidden rooms behind it.</li>
+          <li>Lost logbook pages and the town's keepsakes wait in the deep.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row flip">
+      <div class="frame"><video src="img/clips/harbour.mp4" poster="img/clips/harbour.webp" autoplay muted loop playsinline preload="metadata" aria-label="A building on the harbour being rebuilt"></video></div>
+      <div>
+        <h3><span class="num">4</span>Rebuild</h3>
+        <ul>
+          <li>Six storm-wrecked buildings to raise again, in any order you like, each growing bigger as you upgrade it.</li>
+          <li>Spend your haul on a better sub and a better suit, and go a little deeper.</li>
+          <li>Bring the whole harbour back, then keep diving for as long as you like.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true" style="background:var(--cream)">
+  <path d="M0 30 C180 0 360 60 540 30 C720 0 900 60 1080 30 C1260 0 1350 40 1440 25 L1440 60 L0 60 Z" fill="#1b4a6b"/>
+</svg>
+
+<!-- ================= AQUARIUM ================= -->
+<section class="aquarium" id="aquarium">
+  <div class="wrap">
+    <div class="section-title">
+      <span class="tag">The aquarium</span>
+      <h2>Your own walk-in aquarium</h2>
+      <p>Every fish you bring home can swim in your hall. Visitors wander past the tanks, and your fish earn coins every minute you play. Nothing you neglect ever comes to harm.</p>
+    </div>
+    <div class="duo">
+      <figure>
+        <div class="frame"><video src="img/clips/aquarium.mp4" poster="img/clips/aquarium.webp" autoplay muted loop playsinline preload="metadata" aria-label="Visitors walking past the tanks in the aquarium hall"></video></div>
+        <figcaption><b>Walk the hall</b>Visitors stop by your favourite tanks.</figcaption>
+      </figure>
+      <figure>
+        <div class="frame"><video src="img/clips/feed.mp4" poster="img/clips/feed.webp" autoplay muted loop playsinline preload="metadata" aria-label="Fish rising to food sprinkled in a tank"></video></div>
+        <figcaption><b>Feed, polish, tend</b>A quick button, or a little game for a bigger bonus.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true" style="background:#133554">
+  <path d="M0 30 C180 0 360 60 540 30 C720 0 900 60 1080 30 C1260 0 1350 40 1440 25 L1440 60 L0 60 Z" fill="#fff9ec"/>
+</svg>
+
+<!-- ================= SCREENSHOTS ================= -->
+<section class="gallery-sec" id="screens">
+  <div class="wrap">
+    <div class="section-title">
+      <span class="tag">Screenshots</span>
+      <h2>A peek under the waves</h2>
+      <p>Tap any picture to see it bigger.</p>
+    </div>
+    <div class="gallery">
+      <button data-caption="A new species for the codex"><img src="img/shots/01_new_species.webp" width="1920" height="1080" alt="The diver meeting a new species" loading="lazy"></button>
+      <button data-caption="The aquarium hall"><img src="img/shots/02_aquarium.webp" width="1920" height="1080" alt="Visitors in the aquarium hall" loading="lazy"></button>
+      <button data-caption="Home, with a dolphin dropping by"><img src="img/shots/03_home_with_dolphin.webp" width="1920" height="1080" alt="The harbour with a dolphin leaping" loading="lazy"></button>
+      <button data-caption="Raising the harbour again"><img src="img/shots/04_rebuilding.webp" width="1920" height="1080" alt="A harbour building being rebuilt" loading="lazy"></button>
+      <button data-caption="The Kelp Forest"><img src="img/shots/05_kelp_forest.webp" width="1920" height="1080" alt="The sub among tall kelp" loading="lazy"></button>
+      <button data-caption="The Coral Gardens"><img src="img/shots/13_coral_gardens.webp" width="1920" height="1080" alt="The sub in the Coral Gardens" loading="lazy"></button>
+      <button data-caption="The Blue Caves"><img src="img/shots/07_blue_caves.webp" width="1920" height="1080" alt="The sub's lamps in the Blue Caves" loading="lazy"></button>
+      <button data-caption="A hidden room behind the rubble"><img src="img/shots/12_hidden_room.webp" width="1920" height="1080" alt="The diver in a hidden cave room" loading="lazy"></button>
+      <button data-caption="Feeding time"><img src="img/shots/08_feeding_time.webp" width="1920" height="1080" alt="Fish rising to food in a tank" loading="lazy"></button>
+      <button data-caption="Every tank dressed your way"><img src="img/shots/09_tanks.webp" width="1920" height="1080" alt="Three decorated tanks in the hall" loading="lazy"></button>
+      <button data-caption="A new sub off the slipway"><img src="img/shots/10_new_sub.webp" width="1920" height="1080" alt="A new submarine at the dock" loading="lazy"></button>
+      <button data-caption="The codex of 91 species"><img src="img/shots/14_codex.webp" width="1920" height="1080" alt="The species codex" loading="lazy"></button>
+    </div>
+  </div>
+</section>
+
+<dialog id="viewer">
+  <img src="" alt="">
+  <p></p>
+</dialog>
+
+<!-- ================= ZONES ================= -->
+<section class="zones-sec" id="zones">
+  <div class="wrap">
+    <div class="section-title">
+      <span class="tag">The reef</span>
+      <h2>Seven zones, all the way down</h2>
+      <p>The reef is new every time you dive, and every zone has its own fish, treasures and a rule of its own.</p>
+    </div>
+    <ul class="zones">
+      <li style="background-image:url(img/zones/shallows.png)"><div><span class="depth">From the surface</span><h3>☀️ Sunlit Shallows</h3><p>Shells, sunbeams and learning the ropes.</p></div></li>
+      <li style="background-image:url(img/zones/kelp.png)"><div><span class="depth">Deeper</span><h3>🌿 Kelp Forest</h3><p>Currents push your sub and diver sideways.</p></div></li>
+      <li style="background-image:url(img/zones/coral.png)"><div><span class="depth">Deeper still</span><h3>🪸 Coral Gardens</h3><p>Fire coral stings divers, so swim with care.</p></div></li>
+      <li style="background-image:url(img/zones/caves.png)"><div><span class="depth">Into the dark</span><h3>💎 Blue Caves</h3><p>Your lamps reach less far here, so lean on sonar and the map.</p></div></li>
+      <li style="background-image:url(img/zones/vents.png)"><div><span class="depth">Warmer…</span><h3>🌋 Ember Vents</h3><p>The vents rumble… and then blast hot water!</p></div></li>
+      <li style="background-image:url(img/zones/grotto.png)"><div><span class="depth">Glowing</span><h3>✨ Glow Grotto</h3><p>Glowing walls, and air bubbles to top up your tank.</p></div></li>
+      <li class="mystery"><div><span class="depth">Past 900 m</span><h3>? ? ?</h3><p>Some things are best found for yourself.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= FEATURES ================= -->
+<section id="features">
+  <div class="wrap">
+    <div class="section-title">
+      <span class="tag">Features</span>
+      <h2>Lots of little things to love</h2>
+    </div>
+    <div class="features">
+      <div class="feature"><span class="icon">🐟</span><h3>91 species to find</h3><p>From clownfish to coelacanths, and keep an eye out for the rare golden ones.</p></div>
+      <div class="feature"><span class="icon">🐡</span><h3>A walk-in aquarium</h3><p>Dress every tank your way: its water, its floor, its backdrop and the treasures you bring up.</p></div>
+      <div class="feature"><span class="icon">🏗️</span><h3>Rebuild the harbour</h3><p>Six buildings, in any order, that grow bigger with every upgrade.</p></div>
+      <div class="feature"><span class="icon">📜</span><h3>The keeper's logbook</h3><p>Find the lost pages and piece together the night of the storm.</p></div>
+      <div class="feature"><span class="icon">🗺️</span><h3>A Reef of the Day</h3><p>A new reef every dive, and once a day the same reef for everyone.</p></div>
+      <div class="feature"><span class="icon">🎮</span><h3>Made for the couch</h3><p>Plays fully on a controller with your pad's own prompts, and runs well on Steam Deck.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WISHLIST ================= -->
+<section class="cta" id="follow">
+  <div class="wrap">
+    <div class="cta-box">
+      <img class="logo" src="img/tidelight_logo.gif" width="1096" height="372" alt="Tidelight" loading="lazy">
+      <h2>Come dive with us! 🤿</h2>
+      <p>Tidelight is made by one person at Mossglow Games. A wishlist on Steam is the kindest way to help, and you'll hear the moment it launches.</p>
+      <div class="cta-links">
+        <a class="btn btn-glow" href="https://store.steampowered.com/app/5550230/Tidelight/">Wishlist on Steam</a>
+        <a class="btn btn-ghost" href="https://mossglowgames.com/">Mossglow Games</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 <a href="https://mossglowgames.com/">Mossglow Games</a> · Made by hand, with a little AI, but always with <span class="heart">♥</span>
+</footer>
+
+<script>
+  // Tap a screenshot to see it full size; tap again (or press Esc) to close.
+  const viewer = document.getElementById("viewer");
+  if (viewer && viewer.showModal) {
+    document.querySelectorAll(".gallery button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        viewer.querySelector("img").src = btn.querySelector("img").src;
+        viewer.querySelector("img").alt = btn.dataset.caption;
+        viewer.querySelector("p").textContent = btn.dataset.caption;
+        viewer.showModal();
+      });
+    });
+    viewer.addEventListener("click", () => viewer.close());
+  }
+</script>
+
+</body>
+</html>
